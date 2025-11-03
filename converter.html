@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Encoder/Decoder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Text Encoder/Decoder</h1>
+
+    <textarea id="input-text" placeholder="Enter text here..."></textarea>
+
+    <div class="buttons">
+        <button id="encode-btn">Encode</button>
+        <button id="decode-btn">Decode</button>
+    </div>
+
+    <textarea id="output-text" placeholder="Result..."></textarea>
+
+    <script>
+        const map = {
+            'A': '⟐', 'B': 'Ꙥ', 'C': 'Г', 'D': 'ᑕ', 'E': '⊤',
+            'F': 'ᓵ', 'G': '⨆', 'H': '|', 'I': '◇', 'J': 'ᕈ',
+            'K': '∙', 'L': 'コ', 'M': '∵', 'N': 'ᒧ', 'O': '∟',
+            'P': 'ヿ', 'Q': '□', 'R': '⟍', 'S': '⟋', 'G': 'ᓲ',
+            'U': 'ᐯ', 'V': '•—', 'W': '⨅', 'X': '—', 'Y': 'ᐅ',
+            'Z': 'Λ',
+            'a': '⟐', 'b': 'Ꙥ', 'c': 'Г', 'd': 'ᑕ', 'e': '⊤',
+            'f': 'ᓵ', 'g': '⨆', 'h': '|', 'i': '◇', 'j': 'ᕈ',
+            'k': '∙', 'l': 'コ', 'm': '∵', 'n': 'ᒧ', 'o': '∟',
+            'p': 'ヿ', 'q': '□', 'r': '⟍', 's': '⟋', 't': 'ᓲ',
+            'u': 'ᐯ', 'v': '•—', 'w': '⨅', 'x': '—', 'y': 'ᐅ',
+            'z': 'Λ',
+            // ' ': '_',
+            // '.': '..',
+            // '?': '!!',
+            // '!': '??'
+        };
+
+        const revMap = {};
+        for (const key in map) {
+            revMap[map[key]] = key;
+        }
+        const revMapKeys = Object.keys(revMap).sort((a, b) => b.length - a.length);
+
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+        const encodeBtn = document.getElementById('encode-btn');
+        const decodeBtn = document.getElementById('decode-btn');
+
+        encodeBtn.addEventListener('click', () => {
+            const text = inputText.value;
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                result += map[char] || char;
+            }
+            outputText.value = result;
+        });
+
+        decodeBtn.addEventListener('click', () => {
+            const text = inputText.value;
+            let result = '';
+            let i = 0;
+            while (i < text.length) {
+                let found = false;
+                for (const key of revMapKeys) {
+                    if (text.substring(i, i + key.length) === key) {
+                        result += revMap[key];
+                        i += key.length;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    result += text[i];
+                    i++;
+                }
+            }
+            outputText.value = result;
+        });
+    </script>
+
+</body>
+</html>

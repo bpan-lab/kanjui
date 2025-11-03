@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Keyboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+
+        #output {
+            flex: 1;
+            width: 100%;
+            font-size: 24px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .keyboard-area {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .keyboard-row {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            /* Center the rows */
+        }
+
+        .key {
+            height: 50px;
+            width: 30px;
+            /* Fixed width for uniform size */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            background-color: #fff;
+        }
+
+        .key:active {
+            background-color: #ddd;
+        }
+
+        .special-key-row {
+            display: flex;
+            gap: 5px;
+            justify-content: justify;
+        }
+
+        .special-key {
+            height: 50px;
+            /* Fixed width for uniform size */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            background-color: #fff;
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Keyboard</h1>
+    <textarea id="output"></textarea>
+
+    <div class="keyboard-area">
+        <div class="keyboard-row" id="keyboard-row-1"></div>
+        <div class="keyboard-row" id="keyboard-row-2"></div>
+        <div class="keyboard-row" id="keyboard-row-3"></div>
+        <div class="special-key-row">
+            <div class="special-key" id="clear-key">Clear</div>
+            <div class="special-key" id="space-key">Space</div>
+            <div class="special-key" id="backspace-key">⌫</div>
+        </div>
+        <div class="special-key-row">
+            <div class="special-key" id="degree-key">°</div>
+            <div class="special-key" id="dot-key">.</div>
+            <div class="special-key" id="comma-key">,</div>
+            <div class="special-key" id="question-key">?</div>
+        </div>
+    </div>
+
+
+    <script>
+        const characters = [
+            '□', '⨅', '⊤', '⟍', 'ᓲ', 'ᐅ', 'ᐯ', '◇', '∟', 'ヿ', '⟐', '⟋', 'ᑕ', 'ᓵ', '⨆', '|', 'ᕈ', '∙', 'コ', 'Λ', '—', 'Г', '•—', 'Ꙥ', 'ᒧ', '∵'
+        ];
+
+        const keyboardRow1 = document.getElementById('keyboard-row-1');
+        const keyboardRow2 = document.getElementById('keyboard-row-2');
+        const keyboardRow3 = document.getElementById('keyboard-row-3');
+        const output = document.getElementById('output');
+
+        const row1Chars = characters.slice(0, 10);
+        const row2Chars = characters.slice(10, 19);
+        const row3Chars = characters.slice(19, 26);
+
+        function createKeys(rowElement, chars) {
+            chars.forEach(char => {
+                const key = document.createElement('div');
+                key.classList.add('key');
+                key.textContent = char;
+                key.addEventListener('click', () => {
+                    output.value += char;
+                });
+                rowElement.appendChild(key);
+            });
+        }
+
+        createKeys(keyboardRow1, row1Chars);
+        createKeys(keyboardRow2, row2Chars);
+        createKeys(keyboardRow3, row3Chars);
+
+        document.getElementById('clear-key').addEventListener('click', () => {
+            output.value = '';
+        });
+
+        document.getElementById('space-key').addEventListener('click', () => {
+            output.value += ' ';
+        });
+
+        document.getElementById('backspace-key').addEventListener('click', () => {
+            output.value = output.value.slice(0, -1);
+        });
+
+        document.getElementById('degree-key').addEventListener('click', () => {
+            output.value += '°';
+        });
+
+        document.getElementById('dot-key').addEventListener('click', () => {
+            output.value += '.';
+        });
+
+        document.getElementById('comma-key').addEventListener('click', () => {
+            output.value += ',';
+        });
+
+        document.getElementById('question-key').addEventListener('click', () => {
+            output.value += '?';
+        });
+
+    </script>
+
+</body>
+
+</html>
